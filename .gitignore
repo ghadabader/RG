@@ -1,0 +1,5 @@
+node_modules/
+.env
+.env.*
+atlassian.tkn
+.claude/settings.local.json

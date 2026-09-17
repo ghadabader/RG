@@ -1,6 +1,6 @@
 ---
 id: 0004
-status: ready-for-review
+status: approved
 owner: product-manager
 inputs: [docs/prd.md]
 updated: 2026-09-12
@@ -23,7 +23,9 @@ criteria in CLAUDE.md.
 LIMITS:   Job matches and course recs come from the RAG recommendation engine (see
 ADR-003) — grounded in real job postings and real course catalogs, never a hand-curated
 static map, never an ungrounded LLM guess. Results are cached per diagnostic profile so
-reopening a report doesn't re-trigger a paid LLM call (see ADR-001).
+reopening a report doesn't re-trigger a paid LLM call (see ADR-001). Job titles and course
+names are localized per the language switcher's bilingual format (see intent 0006) —
+translated term leading, original English term in brackets.
 NOT NOW:  Personalized video interview feedback; live coaching or chat with a human.
 
 ## Open questions

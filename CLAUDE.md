@@ -93,6 +93,12 @@ expanding UI or adding chapters — it's the asset the whole moat depends on.
 
 ## Exam structure (working v1 hypothesis — expect this to change)
 
+The chapter count is not a fixed product requirement — it's a content-design decision
+driven by how many distinct skill areas are worth diagnosing. All users take the same
+unified set of chapters (no per-user adaptive subset — that would break profile
+comparability across users, which the whole recommendation/job-matching model depends
+on). The list below is the current v1 working example, not a hardcoded "6":
+
 Chapters, each scored independently, rolling up into one diagnostic profile:
 1. Coding / Syntax — real code, run against test cases
 2. Problem Solving — algorithmic puzzles, real code + test cases
