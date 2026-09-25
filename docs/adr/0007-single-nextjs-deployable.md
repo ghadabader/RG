@@ -6,6 +6,9 @@ inputs: [docs/prd.md]
 updated: 2026-09-12
 ---
 
+> Moved to Confluence: https://ghadashadibader.atlassian.net/wiki/spaces/RG/pages/1376278.
+> This file is frozen as a historical snapshot and is no longer updated.
+
 # ADR 0007 — Single Next.js deployable (API routes), not a separate backend service
 
 ## Context

@@ -6,6 +6,9 @@ inputs: [docs/prd.md, docs/intents/0001-auth.md]
 updated: 2026-09-12
 ---
 
+> Moved to Confluence: https://ghadashadibader.atlassian.net/wiki/spaces/RG/pages/851970.
+> This file is frozen as a historical snapshot and is no longer updated.
+
 # ADR 0005 — User accounts are required
 
 ## Context

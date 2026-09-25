@@ -6,6 +6,9 @@ inputs: [docs/prd.md, docs/intents/0004-report-page.md, docs/intents/0006-langua
 updated: 2026-09-12
 ---
 
+> Moved to Confluence: https://ghadashadibader.atlassian.net/wiki/spaces/RG/pages/1572865.
+> This file is frozen as a historical snapshot and is no longer updated.
+
 # ADR 0003 — Recommendation engine uses retrieval-augmented generation (RAG), not a static map or an ungrounded LLM
 
 ## Context

@@ -6,6 +6,9 @@ inputs: [docs/prd.md]
 updated: 2026-09-12
 ---
 
+> Moved to Confluence: https://ghadashadibader.atlassian.net/wiki/spaces/RG/pages/1310741.
+> This file is frozen as a historical snapshot and is no longer updated.
+
 # Intent 0006 — Language switcher (AR / EN / HE)
 
 Derived from PRD requirement 0006, rank 6.

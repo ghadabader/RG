@@ -6,6 +6,9 @@ inputs: [docs/prd.md, docs/intents/0003-exam-flow.md, docs/intents/0004-report-p
 updated: 2026-09-12
 ---
 
+> Moved to Confluence: https://ghadashadibader.atlassian.net/wiki/spaces/RG/pages/884745.
+> This file is frozen as a historical snapshot and is no longer updated.
+
 # ADR 0001 — Diagnostic profile is a stored artifact per attempt, not recomputed on demand
 
 ## Context

@@ -6,6 +6,9 @@ inputs: [pitch.txt, CLAUDE.md, .claude/FEATURES.md, ADR.md]
 updated: 2026-09-12
 ---
 
+> Moved to Confluence: https://ghadashadibader.atlassian.net/wiki/spaces/RG/pages/1146881.
+> This file is frozen as a historical snapshot and is no longer updated.
+
 # PRD — Skills Diagnostic & Job-Matching Platform (name TBD)
 
 Migrated from `.claude/FEATURES.md` and `ADR.md` into the artifact-chain format defined

@@ -6,6 +6,9 @@ inputs: [docs/prd.md]
 updated: 2026-09-12
 ---
 
+> Moved to Confluence: https://ghadashadibader.atlassian.net/wiki/spaces/RG/pages/1015819.
+> This file is frozen as a historical snapshot and is no longer updated.
+
 # Intent 0003 — Exam flow (`/exam/[attemptId]`)
 
 Derived from PRD requirement 0003, rank 1.

@@ -6,6 +6,9 @@ inputs: [docs/prd.md]
 updated: 2026-09-12
 ---
 
+> Moved to Confluence: https://ghadashadibader.atlassian.net/wiki/spaces/RG/pages/1277953.
+> This file is frozen as a historical snapshot and is no longer updated.
+
 # Intent 0004 — Report page (`/results/[attemptId]`)
 
 Derived from PRD requirement 0004, rank 2.

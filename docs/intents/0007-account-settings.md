@@ -6,6 +6,9 @@ inputs: [docs/prd.md]
 updated: 2026-09-12
 ---
 
+> Moved to Confluence: https://ghadashadibader.atlassian.net/wiki/spaces/RG/pages/1376257.
+> This file is frozen as a historical snapshot and is no longer updated.
+
 # Intent 0007 — Account settings (`/settings`)
 
 Derived from PRD requirement 0007, rank 7.

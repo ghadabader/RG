@@ -6,6 +6,9 @@ inputs: [docs/prd.md]
 updated: 2026-09-12
 ---
 
+> Moved to Confluence: https://ghadashadibader.atlassian.net/wiki/spaces/RG/pages/1245185.
+> This file is frozen as a historical snapshot and is no longer updated.
+
 # Intent 0002 — Landing / dashboard (`/`)
 
 Derived from PRD requirement 0002, rank 4.

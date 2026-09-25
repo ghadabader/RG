@@ -6,6 +6,9 @@ inputs: [docs/prd.md, docs/intents/0003-exam-flow.md, docs/intents/0005-history.
 updated: 2026-09-12
 ---
 
+> Moved to Confluence: https://ghadashadibader.atlassian.net/wiki/spaces/RG/pages/917511.
+> This file is frozen as a historical snapshot and is no longer updated.
+
 # ADR 0006 — Retakes are allowed; question bank must rotate per (chapter, difficulty tier)
 
 ## Context

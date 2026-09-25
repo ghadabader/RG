@@ -155,77 +155,115 @@ flag this if usage-scale work comes up before it's resolved.
 
 ## Artifact chain and handover protocol
 
-This project is built by a chain of roles. Each role reads files, writes files, and
-stops. **No role calls another role.** The artifact is the interface.
+This project is built by a chain of roles. Each role reads Confluence pages and/or Jira
+issues, writes its own, and stops. **No role calls another role.** The Confluence page or
+Jira issue is the interface.
+
+### Where each artifact lives
+
+- Confluence space `RG` — owned by `product-manager` (PRD, Intents) and
+  `product-architect` (ADRs, Specs). Other roles read it; only PM and Architect write to
+  it.
+- Jira project `KAN` — owned by `product-engineer`, `platform-engineer` and
+  `product-validator` (execution tasks, deployment records, validation verdicts).
+  `product-manager` may create issues here (an Epic + Tasks, once a requirement's spec is
+  approved) but writes nothing else in Jira. `product-architect` has no access to Jira.
 
 ### The chain
 
 ```
 pitch.txt
-   └─ product-manager   → docs/prd.md
-                        → docs/intents/NNNN-<slug>.md      (one per requirement)
-      └─ product-architect → docs/adr/NNNN-<slug>.md       (decisions, product-wide)
-                           → docs/specs/NNNN-<slug>.md     (one per intent, on request)
-         └─ product-engineer   → source code and tests
-            └─ platform-engineer → deployment.md, live URL
-               └─ product-validator → docs/validation/NNNN-<slug>.md
+   └─ product-manager   → Confluence "PRD" (home page, space RG)
+                        → Confluence "Intent NNNN — <slug>" (one per requirement)
+      └─ product-architect → Confluence "ADR NNNN — <slug>" (decisions, product-wide,
+                              own numbering sequence)
+                           → Confluence "Spec NNNN — <slug>" (one per intent, on request)
+         └─ product-manager  → Jira Epic "Requirement NNNN — <slug>" + Tasks, once the
+                                spec carries `status-approved`
+            └─ product-engineer   → source code and tests, reading the named Jira issue
+               └─ platform-engineer → deployment record (comment on the Epic), live URL
+                  └─ product-validator → conformance/fidelity findings (Jira comments)
 ```
 
-`docs/prd.md` is the root document. Every requirement in it has an ID. That ID travels:
-requirement `0003` becomes intent `0003`, spec `0003`, validation `0003`. Anything without
-a traceable ID does not belong in this repository.
+`docs/prd.md`, the files in `docs/intents/` and `docs/adr/` are a frozen historical
+snapshot of this chain from before the Confluence/Jira move — each carries a banner
+pointing at its Confluence replacement and is never edited again. The PRD, every intent,
+ADR and spec written from now on lives in Confluence; every Task belonging to a
+requirement, in Jira.
 
-### Every artifact carries a status header
+Every requirement gets a four-digit ID, starting at `0001`. That ID travels: PRD
+requirement `0003` becomes Intent `0003`, Spec `0003`, Epic/Tasks labeled `id-0003`.
+ADRs are numbered independently (their own sequence, continuing from `0008` since
+`0001`–`0007` already exist as the migrated snapshot) because one ADR can bind many
+requirements. Anything without a traceable ID does not belong in this chain.
 
-Every generated document starts with this block, and nothing else may precede it:
+### Every artifact carries exactly one status label
 
-```yaml
----
-id: 0003
-status: draft            # draft | ready-for-review | approved | blocked | superseded
-owner: product-architect # the role that produced it
-inputs: [docs/prd.md, docs/intents/0003-capture-summary.md]
-updated: 2026-09-08
----
-```
+Every Confluence page and Jira issue in this flow carries exactly one of these labels:
+
+- `status-draft`
+- `status-ready-for-review`
+- `status-approved`
+- `status-blocked`
+
+A page or issue that carries a requirement ID also carries a label `id-NNNN` (ADRs are the
+exception — they are numbered on their own). Jira's native status field (To Do / In
+Progress / Done) is separate and keeps tracking execution progress; it is not the approval
+gate.
+
+Where a tool cannot set an actual Confluence label, encode the status as the first line of
+the page body instead: `**Status:** <status> · **Owner:** <role> · **Updated:** <date>`.
+
+If a page or issue somehow carries two status signals that disagree, treat it as
+`status-blocked` until a human resolves it — never guess which one is authoritative.
 
 ### The handover rules
 
-1. **A role may only start when every input it needs is `approved`.**
-   If any input is `draft`, `ready-for-review` or `blocked`, stop and say which file and
-   what state it is in. Do not proceed on an unapproved input.
+1. **A role may only start when every input it needs carries `status-approved`.**
+   If an input page or issue carries any other status, stop and say which one and what
+   status it carries. Do not proceed on an unapproved input.
 
-2. **A role may never set its own output to `approved`.**
-   When you finish, set `status: ready-for-review` and stop. Approval is a human act.
+2. **A role may never set its own output to `status-approved`.**
+   When you finish, set `status-ready-for-review` and stop. Approval is a human act.
    This is the gate. Marking your own work approved removes it.
 
 3. **Hand over only when the task is ready.**
-   Before setting `ready-for-review`, verify your own skill's "Done when" list and state
-   the result item by item. If any item fails, set `status: blocked`, write why under an
-   `## Blocked on` heading, and stop.
+   Before setting `status-ready-for-review`, verify your own skill's "Done when" list and
+   state the result item by item. If any item fails, set `status-blocked`, write why in
+   the page body under a "Blocked on" heading (Confluence) or as an issue comment (Jira),
+   and stop.
 
 4. **Unanswered questions block the chain.**
    If you cannot complete the artifact without a decision that is not yours to make, set
-   `status: blocked` and list the questions. Never guess and continue.
+   `status-blocked` and write the questions into the page body or issue comment. Never
+   guess and continue.
 
 5. **Stay in your lane.**
-   Write only the artifacts your role owns. If you find a fault in an upstream document,
-   report it — do not edit it. Corrections go back to the role that owns that file.
+   Write only the artifacts your role owns. If you find a fault in an upstream page or
+   issue, report it — do not edit it. Corrections go back to the role that owns it.
 
 6. **Traceability is mandatory.**
-   Every artifact names its `inputs` and shares the `id` of the requirement it serves.
-   An artifact whose ID appears nowhere upstream is scope drift, and gets reported.
+   Every requirement-scoped page and issue carries the `id-NNNN` label of the requirement
+   it serves. A page or issue whose ID appears nowhere upstream is scope drift, and gets
+   reported.
 
 7. **Superseding, never overwriting.**
-   When a decision changes, set the old artifact to `superseded`, add
-   `superseded-by: <path>`, and write a new one. History is evidence.
+   Confluence's page history already preserves every prior version. Superseding an ADR
+   still means: create the new ADR page, add a "Superseded by: <link>" line to the old
+   page's body, and give the old page a `superseded` label. Jira issues are not superseded
+   under this model — a Task that turns out wrong is closed or re-scoped, not replaced.
+
+8. **A connection failure blocks, it never falls back.**
+   If Confluence or Jira cannot be reached, you cannot verify input status or write your
+   output — stop and report the connection failure. Never guess a status, and never fall
+   back to reading or writing the local `docs/` snapshot instead.
 
 ### What to say at the end of every run
 
 Finish every run with exactly these four lines:
 
 ```
-ARTIFACT:  <path you wrote>
+ARTIFACT:  <Confluence page URL or Jira issue key>
 STATUS:    ready-for-review | blocked
 DONE-WHEN: <each item, met or not met>
 NEXT:      <the role that should run next, and what it needs from the human first>
@@ -233,6 +271,9 @@ NEXT:      <the role that should run next, and what it needs from the human firs
 
 ## Conventions
 
-(Empty — none exist yet. Add build/lint/test commands and code style notes
-here as soon as the first package.json and folder structure exist, rather
-than leaving this section stale.)
+- Scaffolded with `create-next-app`: App Router (`app/`), TypeScript, ESLint,
+  no Tailwind (not a decided dependency yet), no `src/` dir, import alias `@/*`.
+- Commands: `npm run dev` (local dev server), `npm run build` (production
+  build — also what CI runs), `npm run lint`, `npm start` (serve a build).
+- No test runner configured yet — add one (and this note) when the first
+  test is written.
