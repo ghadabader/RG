@@ -1,12 +1,12 @@
----
-id: prd
-status: draft
-owner: product-manager
-inputs: [pitch.txt, CLAUDE.md]
-updated: <date>
----
+# Confluence page template: PRD
 
-# PRD — <product name>
+Page title: `PRD` (the home page of space `RG`)
+Parent: none — this is the space home page
+Label(s): none
+
+Page body:
+---
+**Status:** draft · **Owner:** product-manager · **Updated:** <date>
 
 ## 1. Problem
 <Two to four sentences, in your own words.>
@@ -22,12 +22,12 @@ updated: <date>
 <End state: what the user has when this completes.>
 
 ## 4. Requirements
-Every row gets an ID. That ID becomes the intent, the spec and the validation.
+Every row gets an ID. That ID becomes the intent, the spec and the Jira Epic/Tasks.
 
 | ID | Rank | Requirement | Serves journey | Intent |
 |------|------|-------------|----------------|--------|
-| 0001 | 1    |             |                | docs/intents/0001-<slug>.md |
-| 0002 | 2    |             |                | docs/intents/0002-<slug>.md |
+| 0001 | 1    |             |                | Intent 0001 — <slug> |
+| 0002 | 2    |             |                | Intent 0002 — <slug> |
 
 ## 5. Acceptance
 | ID | Countable criterion |
