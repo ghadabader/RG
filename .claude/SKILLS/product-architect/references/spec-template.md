@@ -1,14 +1,14 @@
----
-id: <NNNN>
-status: draft
-owner: product-architect
-inputs: [docs/intents/<NNNN>-<slug>.md, docs/prd.md, docs/adr/0001-..., CLAUDE.md]
-updated: <date>
----
+# Confluence page template: Spec
 
-# Spec <NNNN> — <feature name>
+Page title: `Spec <NNNN> — <feature name>`
+Parent: the "Intent <NNNN>" page
+Label(s): `id-<NNNN>`
 
-Implements intent <NNNN>. Bound by ADR <list the numbers>.
+Page body:
+---
+**Status:** draft · **Owner:** product-architect · **Updated:** <date>
+
+Implements Intent <NNNN>. Bound by ADR <list the numbers, as links>.
 
 APPROACH:   <the shape chosen, in two lines>
             Rejected: <option> (<reason>)

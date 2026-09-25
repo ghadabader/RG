@@ -1,12 +1,13 @@
----
-id: <NNNN>
-status: draft
-owner: product-architect
-inputs: [docs/prd.md, docs/intents/...]
-updated: <date>
----
+# Confluence page template: ADR
 
-# ADR <NNNN> — <the decision, as a short statement>
+Page title: `ADR <NNNN> — <the decision, as a short statement>`
+Parent: none — ADRs are a flat sequence in space `RG`, their own numbering (not a
+requirement ID)
+Label(s): none by default
+
+Page body:
+---
+**Status:** draft · **Owner:** product-architect · **Updated:** <date>
 
 ## Context
 <What forces this decision now. Reference the PRD requirement IDs or constraints that
@@ -32,3 +33,7 @@ run" is.>
 | Requirement ID | How this constrains it |
 |----------------|------------------------|
 |                |                        |
+
+When this ADR is superseded: create the new ADR page, add a line
+`**Superseded by:** <link>` at the end of this page's body, and give this page the
+`superseded` label.
