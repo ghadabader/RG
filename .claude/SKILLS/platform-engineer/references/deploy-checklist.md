@@ -4,7 +4,7 @@
 - [ ] Clean clone builds using documented commands only
 - [ ] All configuration comes from environment variables
 - [ ] `.env.example` lists every variable name, with no real values
-- [ ] The deploy command is written in `deployment.md`
+- [ ] The deploy command is written in the Jira Epic's deployment comment
 
 ## Observability
 - [ ] Application errors reach a place a human actually checks
@@ -19,5 +19,5 @@
 
 ## Verification
 - [ ] Every spec ACCEPT line re-run against the deployed URL
-- [ ] Results recorded in `deployment.md` with the date
+- [ ] Results recorded in the Jira Epic's deployment comment, with the date
 - [ ] Failures written down rather than retried until green
