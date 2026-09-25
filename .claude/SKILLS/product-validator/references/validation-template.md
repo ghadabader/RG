@@ -1,33 +1,29 @@
----
-id: <NNNN>
-status: draft
-owner: product-validator
-inputs: [docs/specs/<NNNN>-<slug>.md, docs/prd.md, docs/intents/<NNNN>-<slug>.md, deployment.md]
-updated: <date>
----
+# Jira comment templates: Validation
 
-# Validation <NNNN> — <requirement name>
+## Comment on each Task (or the Epic, if there are no Tasks) — Pass one, conformance
 
+Requirement: <NNNN> — <slug>
 Deployed URL: <url>
 Commit: <sha>
 
-## Pass one — conformance
+**Conformance**
 
 | Source | Criterion | Verdict | Evidence |
 |--------|-----------|---------|----------|
 | spec ACCEPT |  | met / partial / missing |  |
 | PRD acceptance <NNNN> |  | met / partial / missing |  |
 
-### Scope drift
+**Scope drift**
 | File changed | In spec SCOPE? | Note |
 |--------------|----------------|------|
 |              | yes / no       |      |
 
-### Shipped but never requested
+**Shipped but never requested**
 - <anything present that no spec or PRD line asked for>
 
-## Pass two — fidelity
-Read only `docs/intents/<NNNN>`. The PRD and the spec are closed.
+## Closing comment on the Epic — Pass two, fidelity
+
+Read only the "Intent <NNNN>" Confluence page. The PRD and the spec are closed.
 
 **PROBLEM:** <quote it> — is that person measurably less stuck?
 <answer>
@@ -44,13 +40,13 @@ Read only `docs/intents/<NNNN>`. The PRD and the spec are closed.
 **Would you write the same intent again?**
 <answer>
 
-## What surprised me
-<one or two sentences — usually the most valuable part of this document>
+**What surprised me**
+<one or two sentences — usually the most valuable part of this comment>
 
-## Not checked, and why
+**Not checked, and why**
 <what this validation did not cover>
 
-## Open items
+**Open items**
 | Item | Owning role | Why it matters |
 |------|-------------|----------------|
 |      | product-manager / product-architect / product-engineer / platform-engineer |  |
