@@ -55,7 +55,8 @@ Out of scope for this round: a study plan builder (deferred) and anything alread
    - An overall label sits on top: **Ready / Close / Not yet**.
 7. **One general assistant, not per-item chats.** It can use the user's whole profile,
    attempt history and job-fit results, so it also covers the "results coach" idea
-   ("why was I matched to X?").
+   ("why was I matched to X?"). It has no topic limit, but relates answers to the user's
+   profile wherever it reasonably can.
 8. **Retrieval uses Supabase Postgres with pgvector, not Vertex AI.** Claude is called
    through the Anthropic API from server-side routes only. No new cloud provider, which
    keeps ADR 0007's single deployable.
@@ -97,7 +98,9 @@ keeps answers grounded in the user's real records.
   opens with a job-fit result ID.
 - It replies in the selected interface language (Arabic, English or Hebrew), with
   English terms in brackets as in ADR 0003.
-- It redirects anything outside career and learning topics.
+- **No topic limit.** It answers any question the user asks, but relates each answer back
+  to the user's own profile, results and learning path wherever it reasonably can. The
+  daily cap limits cost from off-topic use.
 
 ### Data it implies (for product-architect to finalize)
 
@@ -137,13 +140,14 @@ keeps answers grounded in the user's real records.
 
 ## Open questions for the chain
 
-For **product-manager**:
-- Confirm the three requirement IDs and their order. Suggested: `mistake-explanations`,
-  then `ai-assistant`, then `job-fit-check`.
-- Confirm the 30 messages/day default as the answer to the open LLM cost-control
-  question, at least for the assistant.
-- Who writes the pre-written explanations in three languages, and when? This is
-  question-bank authoring work that grows the already-open bank-size question.
+Answered by the user on 2026-09-26 (inputs for **product-manager**):
+- **Order:** `mistake-explanations`, then `ai-assistant`, then `job-fit-check`.
+- **Cost control for the assistant:** a cap of 30 messages per user per day.
+- **Explanation authoring:** Claude drafts the explanations in all three languages when
+  the question bank is written, and the user reviews them. This adds to the
+  already-open bank-size question.
+- **Assistant topic scope:** no topic limit. The assistant answers anything, but relates
+  answers to the user's profile wherever it reasonably can.
 
 For **product-architect** (ADR candidates):
 - An ADR for the assistant foundation: server-side tool use, read-only tools, RLS.
