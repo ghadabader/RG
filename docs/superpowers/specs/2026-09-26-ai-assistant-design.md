@@ -57,9 +57,12 @@ Out of scope for this round: a study plan builder (deferred) and anything alread
    attempt history and job-fit results, so it also covers the "results coach" idea
    ("why was I matched to X?"). It has no topic limit, but relates answers to the user's
    profile wherever it reasonably can.
-8. **Retrieval uses Supabase Postgres with pgvector, not Vertex AI.** Claude is called
-   through the Anthropic API from server-side routes only. No new cloud provider, which
-   keeps ADR 0007's single deployable.
+8. **Retrieval uses Google Cloud Vertex AI RAG Engine; Claude writes the answers.**
+   RAG Engine indexes the course catalog and finds relevant items, and the results are
+   passed to Claude. Both are called from server-side routes only. This adds Google Cloud
+   as a second provider next to Supabase (billing, credentials) but keeps ADR 0007's
+   single Next.js deployable. It replaces an earlier pgvector choice, changed by the user
+   on 2026-09-26.
 9. **Daily message cap per user**, default 30 messages a day, configurable, with the
    remaining count shown in the UI.
 10. **What is stored:**
@@ -78,7 +81,7 @@ Out of scope for this round: a study plan builder (deferred) and anything alread
 | The user's answers, correct answers, explanations | Exact lookup by attempt and question ID |
 | The user's profile | Exact lookup of the stored `diagnostic_profiles` row (ADR 0001) |
 | Mapping posting requirements to exam areas | A small skill-to-area list, included in the prompt |
-| Courses that close a gap | **Vector similarity search (pgvector)** over course catalog embeddings |
+| Courses that close a gap | **Vertex AI RAG Engine** retrieval over the indexed course catalog |
 
 Vector search is only used for the course catalog. Everything else is exact data, which
 keeps answers grounded in the user's real records.
@@ -91,7 +94,7 @@ keeps answers grounded in the user's real records.
   - `get_profile`: the stored profile(s)
   - `get_attempt_answers`: answers and explanations for **submitted** attempts only
   - `get_job_fit_results`: saved job-fit checks
-  - `search_courses`: pgvector search, returning only links that have been checked
+  - `search_courses`: RAG Engine retrieval, returning only links that have been checked
 - Every tool queries the database as the signed-in user, so RLS limits it to their own
   rows. An attempt that is still in progress cannot be returned, by rule and by query.
 - Entry points pass context: "Ask why" opens with a question ID, and "Ask about this"
@@ -110,7 +113,8 @@ keeps answers grounded in the user's real records.
   label, and the attempt checked against.
 - Conversations and messages: owned by the user and deletable.
 - Daily usage counter per user.
-- Course catalog: entries with checked links and an embedding vector.
+- Course catalog: entries with checked links, kept in the database as the source of
+  truth and indexed into a Vertex AI RAG Engine corpus for retrieval.
 - Anonymized counters: per question and per requirement term, with no user ID.
 
 ## Failure behavior
@@ -146,13 +150,19 @@ Answered by the user on 2026-09-26 (inputs for **product-manager**):
 - **Explanation authoring:** Claude drafts the explanations in all three languages when
   the question bank is written, and the user reviews them. This adds to the
   already-open bank-size question.
+- **Exhausted question pools:** when a user has seen every question in a (chapter,
+  difficulty tier), the retake reuses previously seen questions, oldest-seen first,
+  mixed with any unseen ones and in a new order, so no retake repeats a past exam.
 - **Assistant topic scope:** no topic limit. The assistant answers anything, but relates
   answers to the user's profile wherever it reasonably can.
 
 For **product-architect** (ADR candidates):
 - An ADR for the assistant foundation: server-side tool use, read-only tools, RLS.
-- Choosing the **embedding model**. It must handle Arabic and Hebrew. Supabase's
-  built-in small model is English-focused, and Anthropic offers no embeddings, so a
-  multilingual provider such as Voyage is likely needed.
+- An ADR adopting **Vertex AI RAG Engine** for retrieval: how the course corpus is kept
+  in sync with the database, which Google Cloud region, and how credentials are held
+  server-side. The embedding model must handle Arabic and Hebrew; Vertex offers
+  multilingual embedding models, so choose one of those.
+- Whether Claude is called through the Anthropic API or through Vertex AI, now that
+  Google Cloud is in the stack anyway.
 - How question-bank sizing changes, now that retakes exclude explained questions.
 - Whether saving pasted postings needs a retention limit.
