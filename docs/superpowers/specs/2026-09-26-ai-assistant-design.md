@@ -35,13 +35,16 @@ Out of scope for this round: a study plan builder (deferred) and anything alread
 
 1. **Nothing is available during an exam.** Explanations and the assistant only apply to
    attempts that have been **submitted**.
-2. **Mistake explanations use pre-written text.** Every question in the bank carries a
-   short written explanation. The report page shows it next to each wrong answer, with
-   the user's answer and the correct one. No LLM call is needed to show it.
-3. **"Ask why" opens the assistant** with that question in context, for users who don't
-   understand the written explanation.
-4. **Retakes never repeat an explained question.** When building a retake, the exam
-   skips every question whose explanation that user has seen. This extends the rotation
+2. **Explanations use pre-written text, revealed by "Ask why".** Every question in the
+   bank carries a short written explanation. On the report, every question, right or
+   wrong, shows the user's answer, a right/wrong mark and an **"Ask why"** button.
+   Tapping it reveals the correct answer and the explanation. The correct answer stays
+   hidden until then. No LLM call is needed to show it. (Changed 2026-10-01; explanations
+   were first shown automatically for wrong answers only.)
+3. **"Ask more" opens the assistant.** Under each revealed explanation, an "Ask more"
+   button opens the assistant with that question in context.
+4. **Retakes never repeat an "Ask why" question.** When building a retake, the exam
+   skips every question where that user tapped "Ask why". This extends the rotation
    rule in ADR 0006 to individual users.
 5. **Job-fit input is pasted text only.** No URL fetching, which avoids scraping, login
    walls and server-side request forgery (SSRF).
@@ -97,7 +100,7 @@ keeps answers grounded in the user's real records.
   - `search_courses`: RAG Engine retrieval, returning only links that have been checked
 - Every tool queries the database as the signed-in user, so RLS limits it to their own
   rows. An attempt that is still in progress cannot be returned, by rule and by query.
-- Entry points pass context: "Ask why" opens with a question ID, and "Ask about this"
+- Entry points pass context: "Ask more" opens with a question ID, and "Ask about this"
   opens with a job-fit result ID.
 - It replies in the selected interface language (Arabic, English or Hebrew), with
   English terms in brackets as in ADR 0003.
