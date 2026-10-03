@@ -58,8 +58,9 @@ Out of scope for this round: a study plan builder (deferred) and anything alread
    - An overall label sits on top: **Ready / Close / Not yet**.
 7. **One general assistant, not per-item chats.** It can use the user's whole profile,
    attempt history and job-fit results, so it also covers the "results coach" idea
-   ("why was I matched to X?"). It has no topic limit, but relates answers to the user's
-   profile wherever it reasonably can.
+   ("why was I matched to X?"). It answers on-subject questions only (programming,
+   learning, jobs and job descriptions, the user's results) and refuses everything else
+   (changed 2026-10-03; see ADR 0018).
 8. **Retrieval uses Google Cloud Vertex AI RAG Engine; Claude writes the answers.**
    RAG Engine indexes the course catalog and finds relevant items, and the results are
    passed to Claude. Both are called from server-side routes only. This adds Google Cloud
@@ -105,9 +106,11 @@ keeps answers grounded in the user's real records.
   opens with a job-fit result ID.
 - It replies in the selected interface language (Arabic, English or Hebrew), with
   English terms in brackets as in ADR 0003.
-- **No topic limit.** It answers any question the user asks, but relates each answer back
-  to the user's own profile, results and learning path wherever it reasonably can. The
-  daily cap limits cost from off-topic use.
+- **On-subject only.** It answers questions about the user's exam questions and
+  explanations, their results, jobs and job descriptions they send, courses and
+  learning, and any programming question, relating answers to the user's own results
+  where it can. Anything else (e.g. the weather) is refused politely, and a refusal
+  counts as half a message. A small topic check runs before the main reply (ADR 0018).
 
 ### Data it implies (for product-architect to finalize)
 
@@ -160,8 +163,9 @@ Answered by the user on 2026-09-26 (inputs for **product-manager**):
 - **Exhausted question pools:** when a user has seen every question in a (chapter,
   difficulty tier), the retake reuses previously seen questions, oldest-seen first,
   mixed with any unseen ones and in a new order, so no retake repeats a past exam.
-- **Assistant topic scope:** no topic limit. The assistant answers anything, but relates
-  answers to the user's profile wherever it reasonably can.
+- **Assistant topic scope** (changed 2026-10-03): on-subject only (programming, learning,
+  jobs and job descriptions, the user's results); off-topic questions are refused and
+  count as half a message.
 
 For **product-architect** (ADR candidates):
 - An ADR for the assistant foundation: server-side tool use, read-only tools, RLS.
