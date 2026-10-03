@@ -66,8 +66,9 @@ Out of scope for this round: a study plan builder (deferred) and anything alread
    as a second provider next to Supabase (billing, credentials) but keeps ADR 0007's
    single Next.js deployable. It replaces an earlier pgvector choice, changed by the user
    on 2026-09-26.
-9. **Daily message cap per user**, default 30 messages a day, configurable, with the
-   remaining count shown in the UI.
+9. **Daily message cap per user**, 20 messages a day (lowered from 30 on 2026-10-03),
+   configurable, counted by the user's local day, with the remaining count shown in the
+   UI. Each job-fit check counts as one message.
 10. **What is stored:**
     - Job-fit results are saved and linked to the attempt they were checked against.
     - Chat conversations are saved, and the user can delete them.
@@ -149,7 +150,10 @@ keeps answers grounded in the user's real records.
 
 Answered by the user on 2026-09-26 (inputs for **product-manager**):
 - **Order:** `mistake-explanations`, then `ai-assistant`, then `job-fit-check`.
-- **Cost control for the assistant:** a cap of 30 messages per user per day.
+- **Cost control for the assistant:** a cap of 20 messages per user per day (the user's
+  local day), shared with job-fit checks (changed from 30 on 2026-10-03).
+- **Retention:** chats and pasted postings are kept until the user deletes them; no
+  automatic expiry.
 - **Explanation authoring:** Claude drafts the explanations in all three languages when
   the question bank is written, and the user reviews them. This adds to the
   already-open bank-size question.
