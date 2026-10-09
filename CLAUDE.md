@@ -233,6 +233,24 @@ NEXT:      <the role that should run next, and what it needs from the human firs
 
 ## Conventions
 
-(Empty — none exist yet. Add build/lint/test commands and code style notes
-here as soon as the first package.json and folder structure exist, rather
-than leaving this section stale.)
+### Build, lint and test
+
+Next.js 16 (App Router, TypeScript, npm), scaffolded by Spec 0001. Node.js 24 LTS.
+
+- `npm install` — install dependencies
+- `npm run dev` — local app at http://localhost:3000
+- `npm run build` — production build; `npm run lint` — ESLint
+- `npm test` — **Vitest** unit/integration tests (`tests/**/*.test.ts`)
+- `npm run test:e2e` — **Playwright** end-to-end tests (`tests/**/*.spec.ts`); starts
+  `next dev` itself and runs against the shared dev Supabase project
+- `npm run test:all` — both
+
+Local settings live in `.env.local` (gitignored; see `.env.example`), not `.env` (which
+holds the Atlassian MCP credentials). `SUPABASE_SERVICE_ROLE_KEY` is for **test code
+only** — app code must never reference it (`tests/auth/unit/serviceRoleGuard.test.ts`).
+Database changes are SQL files in `db/migrations/`, applied by hand in filename order
+(Supabase SQL editor) — no migration runner yet.
+
+Next.js 16 notes: route protection lives in `proxy.ts` (the renamed `middleware.ts`).
+Cache Components is on, so any layout or page reading cookies, headers or
+`searchParams` exports `instant = false`.
