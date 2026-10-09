@@ -1,0 +1,43 @@
+{
+  "auth": {
+    "email": "Email",
+    "password": "Password",
+    "newPassword": "New password",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "logout": "Log out",
+    "signup": {
+      "title": "Create your account",
+      "submit": "Create account",
+      "haveAccount": "Already have an account?",
+      "login": "Log in"
+    },
+    "login": {
+      "title": "Log in",
+      "submit": "Log in",
+      "forgot": "Forgot password?",
+      "noAccount": "New here?",
+      "signup": "Create an account"
+    },
+    "forgot": {
+      "title": "Reset your password",
+      "submit": "Send reset link",
+      "sent": "If an account exists for this email, we sent a link.",
+      "back": "Back to log in"
+    },
+    "reset": {
+      "title": "Choose a new password",
+      "submit": "Save new password"
+    },
+    "errors": {
+      "invalid_email": "Enter a valid email address.",
+      "password_too_short": "Use at least 8 characters.",
+      "invalid_credentials": "Wrong email or password.",
+      "email_taken": "An account with this email already exists. Log in instead.",
+      "rate_limited": "Too many attempts. Try again in a minute.",
+      "unavailable": "We can't reach the sign-in service right now. Please try again.",
+      "expired": "This link has expired. Request a new one.",
+      "same_password": "Choose a password different from your current one."
+    }
+  }
+}
